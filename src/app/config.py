@@ -101,6 +101,15 @@ def load_config(config_file: str = "config.conf") -> configparser.ConfigParser:
     
     config["Gemini"]["backend"] = gemini_backend
 
+    # Override Gemini cookies from environment variables (highest priority)
+    gemini_psid_env = os.environ.get("GEMINI_PSID")
+    gemini_psidts_env = os.environ.get("GEMINI_PSIDTS")
+    if gemini_psid_env or gemini_psidts_env:
+        if gemini_psid_env:
+            config["Gemini"]["__Secure-1PSID"] = gemini_psid_env
+        if gemini_psidts_env:
+            config["Gemini"]["__Secure-1PSIDTS"] = gemini_psidts_env
+
     return config
 
 
